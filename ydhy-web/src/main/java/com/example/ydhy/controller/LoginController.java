@@ -19,10 +19,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class LoginController {
     @Autowired
-    private StringRedisTemplate stringredisTemplate;
+    private RedisTemplate stringredisTemplate;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
@@ -54,7 +51,6 @@ public class LoginController {
     @PostMapping("login")
     public Result doLogin(@ApiParam(value = "用户名", required = true) @RequestParam(value = "loginName") String username,
                           @ApiParam(value = "密码", required = true) @RequestParam(value = "password") String password, HttpServletResponse httpServletResponse) {
-        userService.getByUsername(username);
         Subject subject = SecurityUtils.getSubject();
         password = new SimpleHash("md5", password, ByteSource.Util.bytes(""), 2).toHex();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);

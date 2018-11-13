@@ -71,7 +71,7 @@ public class UserController {
                          @ApiParam(value = "用户token",required = true)String token){
         String str=tokenUtil.checkToken(token);
         JSONObject jsonObject=JSONObject.fromObject(str);
-        if (!jsonObject.optString("isSuper").equals("0")){
+        if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
         }
         userService.deleteByUserId(userId);

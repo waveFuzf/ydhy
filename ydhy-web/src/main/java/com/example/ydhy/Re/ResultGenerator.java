@@ -17,6 +17,12 @@ public class ResultGenerator {
                 .setData(data);
     }
 
+    public static <T> Result<T> genFailResult(T data) {
+        return new Result()
+                .setCode(ResultCodeEnum.FAIL)
+                .setData(data);
+    }
+
     public static Result genFailResult(String message) {
         return new Result()
                 .setCode(ResultCodeEnum.FAIL)
