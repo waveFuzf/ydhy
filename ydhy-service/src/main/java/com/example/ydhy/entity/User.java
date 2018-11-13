@@ -1,8 +1,15 @@
 package com.example.ydhy.entity;
 
-import java.util.Date;
+import com.example.ydhy.dto.UserInfo;
+import lombok.Data;
 
-public class User {
+import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Date;
+@Data
+public class User implements Serializable {
+
+    @Id
     private Integer id;
 
     private String loginName;
@@ -21,8 +28,6 @@ public class User {
 
     private String isSuper;
 
-    private String role;
-
     private String status;
 
     private Date createTime;
@@ -30,6 +35,22 @@ public class User {
     private Date updateTime;
 
     private String vchatNum;
+
+    public User(String username, String password) {
+        this.loginName=username;
+        this.password=password;
+    }
+    public User(){
+
+    }
+
+    public User(UserInfo userInfo) {
+        this.id=userInfo.getId();
+        this.phone=userInfo.getPhone();
+        this.email=userInfo.getEmail();
+        this.vchatNum=userInfo.getVchatNum();
+        this.realName=userInfo.getRealName();
+    }
 
     public Integer getId() {
         return id;
@@ -101,14 +122,6 @@ public class User {
 
     public void setIsSuper(String isSuper) {
         this.isSuper = isSuper == null ? null : isSuper.trim();
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role == null ? null : role.trim();
     }
 
     public String getStatus() {

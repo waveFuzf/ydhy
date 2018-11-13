@@ -1,6 +1,9 @@
 package com.example.ydhy.util;
 
 import com.example.ydhy.entity.Token;
+import com.example.ydhy.entity.User;
+import com.google.gson.JsonObject;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -12,39 +15,24 @@ import java.util.concurrent.TimeUnit;
 public class TokenUtil {
     @Autowired
     private RedisTemplate redisTemplate;
-    public Token createToken (String username){
+    public String createToken (JSONObject userSession){
         String tokenId = UUID.randomUUID().toString().replace("-","");
-        Token token = new Token(username,tokenId);
-        redisTemplate.boundValueOps(username).set(tokenId,150,TimeUnit.SECONDS);
-        return token;
-    }
-    public Token getToken (String authentication) {
-        if (authentication == null || authentication.length () == 0) {
-            return null;
-        }
-        String [] param = authentication.split ("_");
-        if (param.length != 2) {
-            return null;
-        }
-        // 使用 userId 和源 token 简单拼接成的 token，可以增加加密措施
-        String username = param [0];
-        String token = param [1];
-        return new Token (username, token);
+        redisTemplate.boundValueOps(tokenId).set(userSession.toString(),150,TimeUnit.SECONDS);
+        return tokenId;
     }
 
-    public boolean checkToken (Token model) {
-        if (model == null) {
-            return false;
+    public String checkToken (String token) {
+
+        String userSession = (String) redisTemplate.boundValueOps (token).get ();
+        if (userSession == null) {
+            return "token无效";
         }
-        String token = (String) redisTemplate.boundValueOps (model.getUsername()).get ();
-        if (token == null || !token.equals (model.getToken ())) {
-            return false;
-        }
-        redisTemplate.boundValueOps (model.getUsername()).expire (150, TimeUnit.SECONDS);
-        return true;
+        redisTemplate.boundValueOps (token).expire (150, TimeUnit.SECONDS);
+        return userSession;
     }
 
-    public void deleteToken (String userId) {
-        redisTemplate.delete (userId);
+    public void deleteToken (String token) {
+            redisTemplate.delete (token);
     }
+
 }

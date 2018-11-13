@@ -9,9 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @MapperScan("com.example.ydhy.dao")
-@EnableSwagger2
 @ComponentScan
 public class YdhyWebApplication {
 

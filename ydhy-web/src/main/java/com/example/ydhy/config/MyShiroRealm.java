@@ -1,6 +1,6 @@
 package com.example.ydhy.config;
 
-import com.example.ydhy.service.ShiroService;
+import com.example.ydhy.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 
 public class MyShiroRealm extends AuthorizingRealm {
     @Resource
-    public ShiroService shiroService;
+    public UserService userService;
 
     /**
      * 授权
@@ -33,7 +33,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         //获取用户账号
         String username = token.getPrincipal().toString();
         System.out.println("***用户名***"+username);
-        String password = shiroService.getPasswordByUsername(username);
+        String password = userService.getByUsername(username).getPassword();
         System.out.println("***密码***"+password);
         if (password!=null) {
             AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(

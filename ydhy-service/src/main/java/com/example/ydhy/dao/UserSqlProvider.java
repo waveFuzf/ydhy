@@ -77,10 +77,6 @@ public class UserSqlProvider {
             VALUES("is_super", "#{isSuper,jdbcType=VARCHAR}");
         }
         
-        if (record.getRole() != null) {
-            VALUES("role", "#{role,jdbcType=VARCHAR}");
-        }
-        
         if (record.getStatus() != null) {
             VALUES("status", "#{status,jdbcType=VARCHAR}");
         }
@@ -115,7 +111,6 @@ public class UserSqlProvider {
         SELECT("password");
         SELECT("is_delete");
         SELECT("is_super");
-        SELECT("role");
         SELECT("status");
         SELECT("create_time");
         SELECT("update_time");
@@ -173,10 +168,6 @@ public class UserSqlProvider {
             SET("is_super = #{record.isSuper,jdbcType=VARCHAR}");
         }
         
-        if (record.getRole() != null) {
-            SET("role = #{record.role,jdbcType=VARCHAR}");
-        }
-        
         if (record.getStatus() != null) {
             SET("status = #{record.status,jdbcType=VARCHAR}");
         }
@@ -210,7 +201,6 @@ public class UserSqlProvider {
         SET("password = #{record.password,jdbcType=VARCHAR}");
         SET("is_delete = #{record.isDelete,jdbcType=VARCHAR}");
         SET("is_super = #{record.isSuper,jdbcType=VARCHAR}");
-        SET("role = #{record.role,jdbcType=VARCHAR}");
         SET("status = #{record.status,jdbcType=VARCHAR}");
         SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
         SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
@@ -255,10 +245,6 @@ public class UserSqlProvider {
         
         if (record.getIsSuper() != null) {
             SET("is_super = #{isSuper,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getRole() != null) {
-            SET("role = #{role,jdbcType=VARCHAR}");
         }
         
         if (record.getStatus() != null) {

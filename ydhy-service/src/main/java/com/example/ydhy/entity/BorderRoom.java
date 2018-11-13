@@ -1,8 +1,10 @@
 package com.example.ydhy.entity;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 public class BorderRoom {
+    @Id
     private Integer id;
 
     private String roomName;
