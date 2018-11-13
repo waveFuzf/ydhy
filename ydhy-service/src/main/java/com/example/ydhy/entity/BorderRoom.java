@@ -1,8 +1,10 @@
 package com.example.ydhy.entity;
 
+import lombok.Data;
+
 import javax.persistence.Id;
 import java.util.Date;
-
+@Data
 public class BorderRoom {
     @Id
     private Integer id;
@@ -18,6 +20,8 @@ public class BorderRoom {
     private Date createTime;
 
     private Date updateTime;
+
+    private String isDelete;
 
     public Integer getId() {
         return id;
@@ -73,5 +77,13 @@ public class BorderRoom {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete == null ? null : isDelete.trim();
     }
 }

@@ -1,6 +1,5 @@
 package com.example.ydhy.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;

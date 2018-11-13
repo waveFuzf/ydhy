@@ -2,54 +2,43 @@ package com.example.ydhy.controller;
 
 import com.example.ydhy.Re.Result;
 import com.example.ydhy.Re.ResultGenerator;
-import com.example.ydhy.dto.DeptInfo;
+import com.example.ydhy.dto.BorderRoomInfo;
 import com.example.ydhy.entity.Department;
-import com.example.ydhy.service.DeptService;
-import com.example.ydhy.service.UserService;
 import com.example.ydhy.util.TokenUtil;
 import io.swagger.annotations.ApiParam;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
-import org.apache.poi.ss.usermodel.Workbook;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/department")
-public class DeptController {
-    @Autowired
-    private DeptService deptService;
+@RequestMapping("/borderRoom")
+public class BorderRoomController {
     @Autowired
     private TokenUtil tokenUtil;
-    @Autowired
-    private UserService userService;
-
-    private static Logger LOG = Logger.getLogger(String.valueOf(DeptController.class));
-
-    private String deptExcelUrl="C:\\Users\\YFZX-FZF-1777\\Desktop\\test.xls";
-
-    @PostMapping("/deptInfo")
-    public Result updateDeptInfo(@ApiParam(value = "部门信息")@RequestBody DeptInfo deptInfo,
+    @PostMapping("/borderRoomInfo")
+    public Result updateBorderRoomInfo(@ApiParam(value = "会议室信息")@RequestBody BorderRoomInfo deptInfo,
                                  @ApiParam(value = "用户token",required = true)@RequestParam String token){
         String str=tokenUtil.checkToken(token);
         JSONObject jsonObject=JSONObject.fromObject(str);
@@ -96,7 +85,7 @@ public class DeptController {
         }
         try {
 
-           deptService.delete(id);
+            deptService.delete(id);
         } catch (Exception e) {
             return ResultGenerator.genFailResult("接口错误");
         }
@@ -122,7 +111,7 @@ public class DeptController {
 
     @PostMapping("select")
     public Result<List<Department>> select(@ApiParam(value = "部门名字",required = true)@RequestParam String deptName,
-                             @ApiParam(value = "页面size")@RequestParam Integer pageSize,
+                                           @ApiParam(value = "页面size")@RequestParam Integer pageSize,
                                            @ApiParam(value = "第几页")@RequestParam Integer pageNo,
                                            @ApiParam(value = "用户token",required = true)@RequestParam String token){
         String str=tokenUtil.checkToken(token);
@@ -133,7 +122,7 @@ public class DeptController {
         return ResultGenerator.genSuccessResult(departments);
     }
     @GetMapping("getDeptExcelFile")
-    public void getDeptExcelFile(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException {
+    public void getDeptExcelFile(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         String fileName="部门示例文件";
         File file =new File(deptExcelUrl);
         String userAgent = request.getHeader("User-Agent");
@@ -216,6 +205,4 @@ public class DeptController {
         }
         return errorLists;
     }
-
-
 }

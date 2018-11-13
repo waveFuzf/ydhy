@@ -27,10 +27,10 @@
             <!--<property name="enableSubPackages" value="true"/>-->
         <!--</sqlMapGenerator>-->
 
-        <javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="com.example.ydhy.dao" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>
+        <!--<javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="com.example.ydhy.dao" targetProject="src/main/java">-->
+            <!--<property name="enableSubPackages" value="true"/>-->
+        <!--</javaClientGenerator>-->
 
-        <table tableName="%" />
+        <table tableName="border_room" />
     </context>
 </generatorConfiguration>
