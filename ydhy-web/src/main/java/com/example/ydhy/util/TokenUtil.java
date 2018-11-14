@@ -17,7 +17,7 @@ public class TokenUtil {
     private RedisTemplate redisTemplate;
     public String createToken (JSONObject userSession){
         String tokenId = UUID.randomUUID().toString().replace("-","");
-        redisTemplate.boundValueOps(tokenId).set(userSession.toString(),1500,TimeUnit.SECONDS);
+        redisTemplate.boundValueOps(tokenId).set(userSession.toString(),15000,TimeUnit.SECONDS);
         return tokenId;
     }
 
@@ -27,7 +27,7 @@ public class TokenUtil {
         if (userSession == null) {
             return "token无效";
         }
-        redisTemplate.boundValueOps (token).expire (1500, TimeUnit.SECONDS);
+        redisTemplate.boundValueOps (token).expire (15000, TimeUnit.SECONDS);
         return userSession;
     }
 

@@ -31,12 +31,11 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取用户账号
+        AuthenticationInfo authenticationInfo;
         String username = token.getPrincipal().toString();
-        System.out.println("***用户名***"+username);
         String password = userService.getByUsername(username).getPassword();
-        System.out.println("***密码***"+password);
         if (password!=null) {
-            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+             authenticationInfo= new SimpleAuthenticationInfo(
                     username,
                     password,
                     getName());

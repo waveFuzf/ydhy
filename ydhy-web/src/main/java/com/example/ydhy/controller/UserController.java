@@ -7,22 +7,21 @@ import com.example.ydhy.dao.UserMapper;
 import com.example.ydhy.dto.UserInfo;
 import com.example.ydhy.entity.User;
 import com.example.ydhy.service.UserService;
-import com.example.ydhy.util.ResponseUtil;
 import com.example.ydhy.util.TokenUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.google.gson.JsonObject;
 import io.swagger.annotations.ApiParam;
 import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Objects;
+
 
 
 @CrossOrigin
@@ -35,8 +34,10 @@ public class UserController {
     @Autowired
     private TokenUtil tokenUtil;
 
+    protected static final Logger logger=LoggerFactory.getLogger(UserController.class);
+
     @GetMapping("getAll")
-    public List<User> getAll(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public List<User> getAll(){
         Example e=new Example(User.class);
         e.createCriteria().getAllCriteria();
         List<User> user=userMapper.selectByExample(e);
@@ -58,16 +59,28 @@ public class UserController {
     }
 
     @PostMapping("/userInfo")
-    public Result updateUserInfo(@ApiParam(value = "用户信息")@RequestBody UserInfo userInfo){
+    public Result updateUserInfo(@ApiParam(value = "用户信息")@RequestBody UserInfo userInfo,
+                                 @ApiParam(value = "用户token",required = true)@RequestParam String token){
+        String str=tokenUtil.checkToken(token);
+        JSONObject jsonObject=JSONObject.fromObject(str);
+        if (!(jsonObject.optString("isSuper").equals("1")||
+                Objects.equals(jsonObject.optInt("id"),userInfo.getId()))){
+            return ResultGenerator.genFailResult("权限不足。需要本人或者管理员操作。");
+        }
         try {
+            User user=userService.getByUserId(userInfo.getId());
+            if (user==null){
+                return ResultGenerator.genFailResult("该账号已被删除，无法更新。请联系管理员。");
+            }
             userService.updateUserInfo(userInfo);
         }catch (Exception e){
+            logger.error("更新用户操作失败！"+e.getMessage());
             return ResultGenerator.genFailResult("更新出错");
         }
         return  ResultGenerator.genSuccessResult("更新成功");
     }
     @PostMapping("/deleteUser")
-    public Result delete(@ApiParam(value = "用户Id")Integer userId,
+    public Result delete(@ApiParam(value = "用户Id",example = "1")Integer userId,
                          @ApiParam(value = "用户token",required = true)String token){
         String str=tokenUtil.checkToken(token);
         JSONObject jsonObject=JSONObject.fromObject(str);

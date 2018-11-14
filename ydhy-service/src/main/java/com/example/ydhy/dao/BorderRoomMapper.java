@@ -18,6 +18,6 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
-public interface BorderRoomMapper {
+public interface BorderRoomMapper extends tkMapper<BorderRoom> {
 
 }

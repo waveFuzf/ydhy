@@ -45,7 +45,7 @@ public class LoginController {
                             2).toHex()));
             return ResultGenerator.genSuccessResult("注册成功.");
         }
-        return ResultGenerator.genFailResult("注册失败.");
+        return ResultGenerator.genFailResult("注册失败.账号已存在。");
     }
 
     @PostMapping("login")

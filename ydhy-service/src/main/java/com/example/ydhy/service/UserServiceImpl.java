@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserInfo(UserInfo userInfo) {
         User user=new User(userInfo);
-        user.setUpdateTime(new Date());
         userMapper.updateByPrimaryKeySelective(user);
     }
 
@@ -55,6 +54,17 @@ public class UserServiceImpl implements UserService {
         user.setId(userId);
         user.setIsDelete("1");
         userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public User getByUserId(Integer id) {
+        Example e=new Example(User.class);
+        e.createCriteria().andEqualTo("id",id).andEqualTo("isDelete","0");
+        List<User> checkUser=userMapper.selectByExample(e);
+        if (checkUser.size()==0){
+            return null;
+        }
+        return checkUser.get(0);
     }
 
 }

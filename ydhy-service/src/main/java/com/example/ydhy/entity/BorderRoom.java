@@ -1,12 +1,17 @@
 package com.example.ydhy.entity;
 
+import com.example.ydhy.dto.BorderRoomInfo;
 import lombok.Data;
+import lombok.Generated;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 @Data
 public class BorderRoom {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String roomName;
@@ -23,67 +28,17 @@ public class BorderRoom {
 
     private String isDelete;
 
-    public Integer getId() {
-        return id;
+    private Integer directorId;
+
+    public BorderRoom(BorderRoomInfo borderRoomInfo) {
+        this.id=borderRoomInfo.getId();
+        this.introduce=borderRoomInfo.getIntroduce();
+        this.position=borderRoomInfo.getPosition();
+        this.roomName=borderRoomInfo.getRoomName();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public BorderRoom(){
+
     }
 
-    public String getRoomName() {
-        return roomName;
-    }
-
-    public void setRoomName(String roomName) {
-        this.roomName = roomName == null ? null : roomName.trim();
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position == null ? null : position.trim();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
-
-    public String getIntroduce() {
-        return introduce;
-    }
-
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce == null ? null : introduce.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(String isDelete) {
-        this.isDelete = isDelete == null ? null : isDelete.trim();
-    }
 }

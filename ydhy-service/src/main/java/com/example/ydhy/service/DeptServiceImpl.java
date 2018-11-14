@@ -11,6 +11,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DeptServiceImpl implements DeptService {
@@ -25,8 +26,12 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public Department getDeptById(Integer id) {
-        Department department=departmentMapper.selectByPrimaryKey(id);
-        return  department;
+        Example example=new Example(Department.class);
+        example.createCriteria().andEqualTo("id",id).andEqualTo("isDelete","0");
+        List<Department> departments=departmentMapper.selectByExample(example);
+        if (departments.size()==0)
+            return null;
+        return departments.get(0);
     }
 
     @Override
@@ -43,15 +48,11 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public Department getById(Integer id) {
-        return departmentMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
     public List<Department> getDeptByName(String deptName, Integer pageNo, Integer pageSize) {
         Page<Department> pageInfo = PageHelper.startPage(pageNo, pageSize);
         Example example=new Example(Department.class);
-        example.createCriteria().andLike("deptName","%"+deptName+"%");
+        example.createCriteria().andLike("deptName","%"+deptName+"%")
+                .andEqualTo("isDelete","0");
         List<Department> departments=departmentMapper.selectByExample(example);
         return pageInfo;
     }

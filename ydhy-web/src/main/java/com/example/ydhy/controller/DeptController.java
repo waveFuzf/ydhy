@@ -46,7 +46,7 @@ public class DeptController {
 
     private static Logger LOG = Logger.getLogger(String.valueOf(DeptController.class));
 
-    private String deptExcelUrl="C:\\Users\\YFZX-FZF-1777\\Desktop\\test.xls";
+    private String deptExcelUrl="C:\\Users\\YFZX-FZF-1777\\Desktop\\下载文件\\部门示例文件.xls";
 
     @PostMapping("/deptInfo")
     public Result updateDeptInfo(@ApiParam(value = "部门信息")@RequestBody DeptInfo deptInfo,
@@ -63,9 +63,10 @@ public class DeptController {
         try {
             deptService.updateDeptInfo(deptInfo);
         }catch (Exception e){
+            e.printStackTrace();
             return ResultGenerator.genFailResult("接口错误");
         }
-        return ResultGenerator.genFailResult("更新成功");
+        return ResultGenerator.genSuccessResult("更新成功");
     }
 
     @PostMapping("/addModel")
@@ -78,6 +79,9 @@ public class DeptController {
         }
         department.setCreateTime(new Date());
         try {
+            if (!deptService.getDeptByName(department.getDeptName())){
+                return ResultGenerator.genFailResult("部门已经存在");
+            }
             deptService.addDepartment(department);
         }catch (Exception e){
             return ResultGenerator.genFailResult("接口错误");
@@ -87,16 +91,19 @@ public class DeptController {
 
     @PostMapping(value = "/deleteModel")
     public Result deleteModel(
-            @RequestParam("id") Integer id,
-            @RequestParam(value = "token", required = true) String token){
+            @ApiParam(value = "删除的部门ID",example = "1")@RequestParam("id") Integer id,
+            @ApiParam(value = "用户token")@RequestParam String token){
         String str=tokenUtil.checkToken(token);
         JSONObject jsonObject=JSONObject.fromObject(str);
         if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
         }
         try {
-
-           deptService.delete(id);
+            Department department=deptService.getDeptById(id);
+            if (department==null){
+                return ResultGenerator.genFailResult("该部门不存在或者已删除。");
+            }
+            deptService.delete(id);
         } catch (Exception e) {
             return ResultGenerator.genFailResult("接口错误");
         }
@@ -105,15 +112,15 @@ public class DeptController {
 
     @GetMapping(value = "/findModel/{id}")
     public Result<Department> findModel(
-            @PathVariable("id") Integer id,
-            @RequestParam(value = "token", required = true) String token){
+            @ApiParam(value = "寻找的部门ID",example = "1")@PathVariable("id") Integer id,
+            @ApiParam(value = "用户token")@RequestParam String token){
         Department model= null;
         try {
             String str = tokenUtil.checkToken(token);
             if (str.equals("token无效")) {
                 return ResultGenerator.genFailResult("token无效");
             }
-            model = deptService.getById(id);
+            model = deptService.getDeptById(id);
         } catch (Exception e) {
             return ResultGenerator.genFailResult("接口错误");
         }
@@ -122,8 +129,8 @@ public class DeptController {
 
     @PostMapping("select")
     public Result<List<Department>> select(@ApiParam(value = "部门名字",required = true)@RequestParam String deptName,
-                             @ApiParam(value = "页面size")@RequestParam Integer pageSize,
-                                           @ApiParam(value = "第几页")@RequestParam Integer pageNo,
+                             @ApiParam(value = "页面size",example = "1")@RequestParam Integer pageSize,
+                                           @ApiParam(value = "第几页",example = "1")@RequestParam Integer pageNo,
                                            @ApiParam(value = "用户token",required = true)@RequestParam String token){
         String str=tokenUtil.checkToken(token);
         if (str.equals("token无效")) {
@@ -159,7 +166,7 @@ public class DeptController {
     }
     @RequestMapping(value = "/importDeptList")
     public Result importDeptList(
-            @RequestParam(value = "token", required = true) String token,
+            @ApiParam(value = "用户token")@RequestParam String token,
             @ApiParam(value = "file detail") @RequestPart("file") MultipartFile file,
             HttpServletRequest request, HttpServletResponse response){
         try {

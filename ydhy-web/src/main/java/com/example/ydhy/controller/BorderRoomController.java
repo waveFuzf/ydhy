@@ -3,7 +3,8 @@ package com.example.ydhy.controller;
 import com.example.ydhy.Re.Result;
 import com.example.ydhy.Re.ResultGenerator;
 import com.example.ydhy.dto.BorderRoomInfo;
-import com.example.ydhy.entity.Department;
+import com.example.ydhy.entity.BorderRoom;
+import com.example.ydhy.service.BorderRoomService;
 import com.example.ydhy.util.TokenUtil;
 import io.swagger.annotations.ApiParam;
 import net.sf.json.JSONObject;
@@ -26,10 +27,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
 
 @CrossOrigin
 @RestController
@@ -37,38 +39,57 @@ import java.util.List;
 public class BorderRoomController {
     @Autowired
     private TokenUtil tokenUtil;
+    @Autowired
+    private BorderRoomService borderRoomService;
+
+    private String bordRoomExcel="C:\\Users\\YFZX-FZF-1777\\Desktop\\下载文件\\会议室示例文件.xls";
+
+    private static Logger LOG = Logger.getLogger(String.valueOf(BorderRoomController.class));
+
     @PostMapping("/borderRoomInfo")
-    public Result updateBorderRoomInfo(@ApiParam(value = "会议室信息")@RequestBody BorderRoomInfo deptInfo,
+    public Result updateBorderRoomInfo(@ApiParam(value = "会议室信息")@RequestBody BorderRoomInfo borderRoomInfo,
                                  @ApiParam(value = "用户token",required = true)@RequestParam String token){
         String str=tokenUtil.checkToken(token);
         JSONObject jsonObject=JSONObject.fromObject(str);
         if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
         }
-        Department departments=deptService.getDeptById(deptInfo.getId());
-        if (departments==null){
+        BorderRoom borderRoom=borderRoomService.getById(borderRoomInfo.getId());
+        if (borderRoom==null){
             return ResultGenerator.genFailResult("部门不存在");
         }
         try {
-            deptService.updateDeptInfo(deptInfo);
+            if (Objects.equals(borderRoom.getIsDelete(),"0"))
+                borderRoomService.update(borderRoomInfo);
+            else {
+                return ResultGenerator.genFailResult("部门已被删除");
+            }
         }catch (Exception e){
+            e.printStackTrace();
             return ResultGenerator.genFailResult("接口错误");
         }
-        return ResultGenerator.genFailResult("更新成功");
+        return ResultGenerator.genSuccessResult("更新成功");
     }
 
     @PostMapping("/addModel")
-    public Result addModel(@ApiParam(value = "部门信息")@RequestBody Department department,
+    public Result addModel(@ApiParam(value = "会议室信息")@RequestBody BorderRoom borderRoom,
                            @ApiParam(value = "用户token",required = true)@RequestParam String token){
         String str=tokenUtil.checkToken(token);
         JSONObject jsonObject=JSONObject.fromObject(str);
         if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
         }
-        department.setCreateTime(new Date());
+        List<BorderRoom> borderRooms=borderRoomService.getBorderRoomByName(borderRoom.getRoomName());
+        if (borderRooms.size()!=0){
+            return ResultGenerator.genFailResult("不可重复添加");
+        }
+        borderRoom.setCreateTime(new Date());
+        borderRoom.setIsDelete("0");
+        borderRoom.setStatus("0");
         try {
-            deptService.addDepartment(department);
+            borderRoomService.addBorderRoom(borderRoom);
         }catch (Exception e){
+            e.printStackTrace();
             return ResultGenerator.genFailResult("接口错误");
         }
         return ResultGenerator.genSuccessResult("更新成功");
@@ -76,33 +97,43 @@ public class BorderRoomController {
 
     @PostMapping(value = "/deleteModel")
     public Result deleteModel(
-            @RequestParam("id") Integer id,
-            @RequestParam(value = "token", required = true) String token){
+            @ApiParam(value = "id",example = "1") @RequestParam Integer id,
+            @ApiParam(value = "用户token")@RequestParam String token){
         String str=tokenUtil.checkToken(token);
         JSONObject jsonObject=JSONObject.fromObject(str);
         if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
         }
+        BorderRoom borderRoom=borderRoomService.getById(id);
+        if (borderRoom==null){
+            return ResultGenerator.genFailResult("部门不存在");
+        }
         try {
+            if (borderRoom.getIsDelete().equals("0")){
+                borderRoomService.delete(id);
+            }
+            else {
+                return ResultGenerator.genFailResult("该会议室已删除");
+            }
 
-            deptService.delete(id);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResultGenerator.genFailResult("接口错误");
         }
         return ResultGenerator.genSuccessResult("删除成功");
     }
 
     @GetMapping(value = "/findModel/{id}")
-    public Result<Department> findModel(
-            @PathVariable("id") Integer id,
-            @RequestParam(value = "token", required = true) String token){
-        Department model= null;
+    public Result<BorderRoom> findModel(
+            @ApiParam(value = "id",example = "1")@PathVariable Integer id,
+            @ApiParam(value = "用户token")@RequestParam String token){
+        BorderRoom model= null;
         try {
             String str = tokenUtil.checkToken(token);
             if (str.equals("token无效")) {
                 return ResultGenerator.genFailResult("token无效");
             }
-            model = deptService.getById(id);
+            model = borderRoomService.getById(id);
         } catch (Exception e) {
             return ResultGenerator.genFailResult("接口错误");
         }
@@ -110,21 +141,21 @@ public class BorderRoomController {
     }
 
     @PostMapping("select")
-    public Result<List<Department>> select(@ApiParam(value = "部门名字",required = true)@RequestParam String deptName,
-                                           @ApiParam(value = "页面size")@RequestParam Integer pageSize,
-                                           @ApiParam(value = "第几页")@RequestParam Integer pageNo,
+    public Result<List<BorderRoom>> select(@ApiParam(value = "会议室名字",required = true)@RequestParam String borderName,
+                                           @ApiParam(value = "页面size",example = "1")@RequestParam Integer pageSize,
+                                           @ApiParam(value = "第几页",example = "1")@RequestParam Integer pageNo,
                                            @ApiParam(value = "用户token",required = true)@RequestParam String token){
         String str=tokenUtil.checkToken(token);
         if (str.equals("token无效")) {
             return ResultGenerator.genFailResult("token无效");
         }
-        List<Department> departments=deptService.getDeptByName(deptName,pageNo,pageSize);
-        return ResultGenerator.genSuccessResult(departments);
+        List<BorderRoom> borderRooms=borderRoomService.getBorderRoomByName(borderName,pageNo,pageSize);
+        return ResultGenerator.genSuccessResult(borderRooms);
     }
-    @GetMapping("getDeptExcelFile")
-    public void getDeptExcelFile(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        String fileName="部门示例文件";
-        File file =new File(deptExcelUrl);
+    @GetMapping("getBordExcelFile")
+    public void getBordExcelFile(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        String fileName="会议室示例文件";
+        File file =new File(bordRoomExcel);
         String userAgent = request.getHeader("User-Agent");
         if (StringUtils.contains(userAgent, "MSIE")) {// IE浏览器
             fileName = URLEncoder.encode(fileName, "UTF8");
@@ -143,11 +174,11 @@ public class BorderRoomController {
             sout.write(bytes);
             sout.flush();
         } catch (IOException e) {
-            LOG.info("============下载成功============");
+            LOG.info("========mady========");
         }
     }
-    @RequestMapping(value = "/importDeptList")
-    public Result importDeptList(
+    @PostMapping(value = "/importDeptList")
+    public Result importBorderList(
             @RequestParam(value = "token", required = true) String token,
             @ApiParam(value = "file detail") @RequestPart("file") MultipartFile file,
             HttpServletRequest request, HttpServletResponse response){
@@ -168,7 +199,7 @@ public class BorderRoomController {
                     workbook = new HSSFWorkbook(bufferedInputStream);
                 }
                 if (workbook != null) {
-                    List errorLists=getDeptFromFile(workbook);
+                    List errorLists=getBorderFromFile(workbook);
                     bufferedInputStream.close();
                     if (errorLists.size()>0)
                         return ResultGenerator.genFailResult(errorLists);
@@ -181,24 +212,24 @@ public class BorderRoomController {
 
     }
 
-    private List getDeptFromFile(Workbook workbook) {
+    private List getBorderFromFile(Workbook workbook) {
         List errorLists=new ArrayList();
         Sheet sheet = workbook.getSheetAt(0);
-        DecimalFormat decimalFormat=new DecimalFormat("#");
         Row row;
         for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
             row = sheet.getRow(j);
-            Department department = new Department();
-            department.setDeptName(String.valueOf(row.getCell(0)));
-            department.setPhone(decimalFormat.format(row.getCell(1).getNumericCellValue()));
-            String str= String.valueOf(row.getCell(2));
-            department.setDirectorId(Integer.valueOf(str.substring(0, str.indexOf('.'))));
-            department.setIntrodecu(String.valueOf(row.getCell(3)));
-            department.setCreateTime(new Date());
-            department.setIsDelete("0");
-            department.setStatus("0");
-            if (deptService.getDeptByName(String.valueOf(row.getCell(0)))){
-                deptService.addDepartment(department);
+            BorderRoom borderRoom = new BorderRoom();
+            borderRoom.setRoomName(String.valueOf(row.getCell(0)));
+            borderRoom.setPosition(String.valueOf(row.getCell(1)));
+            borderRoom.setIntroduce(String.valueOf(row.getCell(2)));
+            String str= String.valueOf(row.getCell(3));
+            borderRoom.setDirectorId(Integer.valueOf(str.substring(0, str.indexOf('.'))));
+            borderRoom.setCreateTime(new Date());
+            borderRoom.setIsDelete("0");
+            borderRoom.setStatus("0");
+            List<BorderRoom> borderRooms=borderRoomService.getBorderRoomByName(String.valueOf(row.getCell(0)));
+            if (borderRooms.size()==0){
+                borderRoomService.addBorderRoom(borderRoom);
                 continue;
             }
             errorLists.add(j);

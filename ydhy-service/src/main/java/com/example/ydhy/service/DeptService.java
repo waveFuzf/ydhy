@@ -14,8 +14,6 @@ public interface DeptService {
 
     void delete(Integer id);
 
-    Department getById(Integer id);
-
     List<Department> getDeptByName(String name, Integer pageNo, Integer pageSize);
 
     boolean getDeptByName(String s);

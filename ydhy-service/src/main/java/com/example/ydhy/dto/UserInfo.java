@@ -6,8 +6,6 @@ import lombok.Data;
 public class UserInfo {
     private Integer id;
 
-    private String loginName;
-
     private String realName;
 
     private String phone;
@@ -15,8 +13,6 @@ public class UserInfo {
     private String email;
 
     private Integer deptId;
-
-    private String isSuper;
 
     private String vchatNum;
 }

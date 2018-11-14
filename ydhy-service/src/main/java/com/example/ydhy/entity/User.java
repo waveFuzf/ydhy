@@ -48,6 +48,7 @@ public class User implements Serializable {
         this.id=userInfo.getId();
         this.phone=userInfo.getPhone();
         this.email=userInfo.getEmail();
+        this.deptId=userInfo.getDeptId();
         this.vchatNum=userInfo.getVchatNum();
         this.realName=userInfo.getRealName();
     }
