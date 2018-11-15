@@ -3,6 +3,8 @@ package com.example.ydhy.service;
 import com.example.ydhy.dto.UserInfo;
 import com.example.ydhy.entity.User;
 
+import java.util.List;
+
 public interface UserService {
     Boolean save(User user);
 
@@ -12,7 +14,9 @@ public interface UserService {
 
     void updateUserInfo(UserInfo userInfo);
 
-    void deleteByUserId(Integer userId);
+    Integer deleteByUserId(Integer userId);
 
     User getByUserId(Integer id);
+
+    List<User> getUsersByName(String name, Integer pageSize, Integer pageNo);
 }

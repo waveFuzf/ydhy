@@ -2,8 +2,10 @@ package com.example.ydhy.service;
 
 import com.example.ydhy.dao.UserMapper;
 import com.example.ydhy.dto.UserInfo;
+import com.example.ydhy.entity.BorderRoom;
 import com.example.ydhy.entity.User;
-import com.example.ydhy.util.DateUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -49,11 +51,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByUserId(Integer userId) {
+    public Integer deleteByUserId(Integer userId) {
         User user=new User();
         user.setId(userId);
         user.setIsDelete("1");
-        userMapper.updateByPrimaryKeySelective(user);
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -65,6 +67,16 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return checkUser.get(0);
+    }
+
+    @Override
+    public List<User> getUsersByName(String name, Integer pageSize, Integer pageNo) {
+        Page<User> pageInfo = PageHelper.startPage(pageNo, pageSize);
+        Example e=new Example(User.class);
+        e.createCriteria().andLike("realName","%"+name+"%")
+                .andEqualTo("isDelete","0");
+        List<User> user=userMapper.selectByExample(e);
+        return pageInfo;
     }
 
 }

@@ -207,6 +207,10 @@ public class DeptController {
         for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
             row = sheet.getRow(j);
             Department department = new Department();
+            if (!deptService.getDeptByName(String.valueOf(row.getCell(0)))){
+                errorLists.add(j);
+                continue;
+            }
             department.setDeptName(String.valueOf(row.getCell(0)));
             department.setPhone(decimalFormat.format(row.getCell(1).getNumericCellValue()));
             String str= String.valueOf(row.getCell(2));
@@ -215,11 +219,8 @@ public class DeptController {
             department.setCreateTime(new Date());
             department.setIsDelete("0");
             department.setStatus("0");
-            if (deptService.getDeptByName(String.valueOf(row.getCell(0)))){
-                deptService.addDepartment(department);
-                continue;
-            }
-            errorLists.add(j);
+            deptService.addDepartment(department);
+
         }
         return errorLists;
     }

@@ -50,6 +50,9 @@ public class BorderRoomController {
     public Result updateBorderRoomInfo(@ApiParam(value = "会议室信息")@RequestBody BorderRoomInfo borderRoomInfo,
                                  @ApiParam(value = "用户token",required = true)@RequestParam String token){
         String str=tokenUtil.checkToken(token);
+        if (str.equals("token无效")){
+            return ResultGenerator.genFailResult(str);
+        }
         JSONObject jsonObject=JSONObject.fromObject(str);
         if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
@@ -75,6 +78,9 @@ public class BorderRoomController {
     public Result addModel(@ApiParam(value = "会议室信息")@RequestBody BorderRoom borderRoom,
                            @ApiParam(value = "用户token",required = true)@RequestParam String token){
         String str=tokenUtil.checkToken(token);
+        if (str.equals("token无效")){
+            return ResultGenerator.genFailResult(str);
+        }
         JSONObject jsonObject=JSONObject.fromObject(str);
         if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
@@ -100,6 +106,9 @@ public class BorderRoomController {
             @ApiParam(value = "id",example = "1") @RequestParam Integer id,
             @ApiParam(value = "用户token")@RequestParam String token){
         String str=tokenUtil.checkToken(token);
+        if (str.equals("token无效")){
+            return ResultGenerator.genFailResult(str);
+        }
         JSONObject jsonObject=JSONObject.fromObject(str);
         if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
@@ -177,13 +186,16 @@ public class BorderRoomController {
             LOG.info("========mady========");
         }
     }
-    @PostMapping(value = "/importDeptList")
+    @PostMapping(value = "/importBorderList")
     public Result importBorderList(
             @RequestParam(value = "token", required = true) String token,
             @ApiParam(value = "file detail") @RequestPart("file") MultipartFile file,
             HttpServletRequest request, HttpServletResponse response){
         try {
             String str=tokenUtil.checkToken(token);
+            if (str.equals("token无效")){
+                return ResultGenerator.genFailResult(str);
+            }
             JSONObject jsonObject=JSONObject.fromObject(str);
             if (jsonObject.optString("isSuper").equals("0")){
                 return ResultGenerator.genFailResult("权限不足");
@@ -219,6 +231,11 @@ public class BorderRoomController {
         for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
             row = sheet.getRow(j);
             BorderRoom borderRoom = new BorderRoom();
+            List<BorderRoom> borderRooms=borderRoomService.getBorderRoomByName(String.valueOf(row.getCell(0)));
+            if (borderRooms.size()!=0){
+                errorLists.add(j);
+                continue;
+            }
             borderRoom.setRoomName(String.valueOf(row.getCell(0)));
             borderRoom.setPosition(String.valueOf(row.getCell(1)));
             borderRoom.setIntroduce(String.valueOf(row.getCell(2)));
@@ -227,12 +244,8 @@ public class BorderRoomController {
             borderRoom.setCreateTime(new Date());
             borderRoom.setIsDelete("0");
             borderRoom.setStatus("0");
-            List<BorderRoom> borderRooms=borderRoomService.getBorderRoomByName(String.valueOf(row.getCell(0)));
-            if (borderRooms.size()==0){
-                borderRoomService.addBorderRoom(borderRoom);
-                continue;
-            }
-            errorLists.add(j);
+            borderRoomService.addBorderRoom(borderRoom);
+
         }
         return errorLists;
     }
