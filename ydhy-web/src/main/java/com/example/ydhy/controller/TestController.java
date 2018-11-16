@@ -1,13 +1,12 @@
 package com.example.ydhy.controller;
 
 import com.example.ydhy.util.EmailUtil;
+import com.example.ydhy.util.ImageWrite;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import org.apache.ibatis.annotations.Mapper;
-import org.mapstruct.MapMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.ydhy.util.ImageWrite.toBufferedImage;
 
 @CrossOrigin
 @RestController
@@ -46,12 +50,15 @@ public class TestController {
     }
     @GetMapping("/sendEmails")
     public String sendEmails() throws MessagingException {
-        String users[]={"906638848@qq.com","zhibi513155315@163.com"};
+        String users[]={"zhibi513155315@163.com","zhibi513155315@163.com",
+                "zhibi513155315@163.com","zhibi513155315@163.com","zhibi513155315@163.com",
+                "zhibi513155315@163.com","zhibi513155315@163.com","zhibi513155315@163.com",
+                "zhibi513155315@163.com","zhibi513155315@163.com","zhibi513155315@163.com"};
         MimeMessage mimeMessage=javaMailSender.createMimeMessage();
         MimeMessageHelper helper=new MimeMessageHelper(mimeMessage,true);
         helper.setFrom("904560968@qq.com");
         helper.setTo(users);
-        helper.setSubject("标题：李思鹏你是猪么？");
+        helper.setSubject("标题：马丁扬你是猪么？");
         helper.setText("嗯 是的");
 //            FileSystemResource fileSystemResource=new FileSystemResource();
         logger.info("======");
@@ -69,10 +76,15 @@ public class TestController {
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hints.put(EncodeHintType.MARGIN,0);
         BitMatrix bitMatrix = new MultiFormatWriter()
-                .encode("https://jingyan.baidu.com/article/9faa723192da96473d28cb5b.html",
+                .encode("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxeb42c0983b8b3234&" +
+                                "http%3A%2F%2F192.168.22.223%3A8080%2Fvxloading&response_type=code&scope=snsapi_userinfo&" +
+                                "&connect_redirect=1#wechat_redirect",
                 BarcodeFormat.QR_CODE, 400, 400,hints);
-//        BitMatrix bitMatrix = new MultiFormatWriter()
-//                .encode("https://www.google.com", BarcodeFormat.QR_CODE, 300, 300, hints);
-        MatrixToImageWriter.writeToStream(bitMatrix, "png", response.getOutputStream());
+        ImageWrite.writeToStream(bitMatrix, "png", response.getOutputStream());
     }
+    @GetMapping("vxloading")
+    public String vxLoading(){
+        return "微信登陆成功！";
+    }
+
 }
