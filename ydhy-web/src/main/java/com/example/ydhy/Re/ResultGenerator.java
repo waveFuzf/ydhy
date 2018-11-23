@@ -20,6 +20,7 @@ public class ResultGenerator {
     public static <T> Result<T> genFailResult(T data) {
         return new Result()
                 .setCode(ResultCodeEnum.FAIL)
+                .setMessage(DEFAULT_SUCCESS_MESSAGE)
                 .setData(data);
     }
 

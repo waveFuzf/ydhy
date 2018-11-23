@@ -17,4 +17,6 @@ public interface DeptService {
     List<Department> getDeptByName(String name, Integer pageNo, Integer pageSize);
 
     boolean getDeptByName(String s);
+
+    List<Department> getAllDept();
 }

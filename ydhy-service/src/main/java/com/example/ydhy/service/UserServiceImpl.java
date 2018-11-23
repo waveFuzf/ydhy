@@ -2,7 +2,6 @@ package com.example.ydhy.service;
 
 import com.example.ydhy.dao.UserMapper;
 import com.example.ydhy.dto.UserInfo;
-import com.example.ydhy.entity.BorderRoom;
 import com.example.ydhy.entity.User;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -40,8 +39,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeStatusByname(String username) {
-        userMapper.changeStatusByname(username);
+    public void changeStatusByname(String status, String username) {
+        userMapper.changeStatusByname(username,status);
     }
 
     @Override
@@ -76,6 +75,17 @@ public class UserServiceImpl implements UserService {
         e.createCriteria().andLike("realName","%"+name+"%")
                 .andEqualTo("isDelete","0");
         List<User> user=userMapper.selectByExample(e);
+        return pageInfo;
+    }
+
+    @Override
+    public List<User> getUsers(Integer pageSize, Integer pageNo) {
+        if (pageSize==null&&pageNo==null){
+            List<User> user=userMapper.getAllUser();
+            return user;
+        }
+        Page<User> pageInfo = PageHelper.startPage(pageNo, pageSize);
+        List<User> user=userMapper.getAllUser();
         return pageInfo;
     }
 

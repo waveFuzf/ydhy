@@ -4,6 +4,7 @@ import com.example.ydhy.Re.Result;
 import com.example.ydhy.Re.ResultGenerator;
 import com.example.ydhy.dto.DeptInfo;
 import com.example.ydhy.entity.Department;
+import com.example.ydhy.entity.User;
 import com.example.ydhy.service.DeptService;
 import com.example.ydhy.service.UserService;
 import com.example.ydhy.util.TokenUtil;
@@ -67,6 +68,17 @@ public class DeptController {
             return ResultGenerator.genFailResult("接口错误");
         }
         return ResultGenerator.genSuccessResult("更新成功");
+    }
+
+    @PostMapping("getAll")
+    public Result<List<Department>> getDepts(@ApiParam(value = "用户token")@RequestParam String token){
+        String str=tokenUtil.checkToken(token);
+        JSONObject jsonObject=JSONObject.fromObject(str);
+        if (jsonObject.optString("isSuper").equals("0")){
+            return ResultGenerator.genFailResult("权限不足");
+        }
+        List<Department> departments=deptService.getAllDept();
+        return ResultGenerator.genSuccessResult(departments);
     }
 
     @PostMapping("/addModel")

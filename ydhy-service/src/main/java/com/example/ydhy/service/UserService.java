@@ -10,7 +10,7 @@ public interface UserService {
 
     User getByUsername(String username);
 
-    void changeStatusByname(String username);
+    void changeStatusByname(String status, String username);
 
     void updateUserInfo(UserInfo userInfo);
 
@@ -19,4 +19,6 @@ public interface UserService {
     User getByUserId(Integer id);
 
     List<User> getUsersByName(String name, Integer pageSize, Integer pageNo);
+
+    List<User> getUsers(Integer pageSize, Integer pageNo);
 }

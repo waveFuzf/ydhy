@@ -64,4 +64,11 @@ public class DeptServiceImpl implements DeptService {
                 deptName).andEqualTo("isDelete","0");
         return departmentMapper.selectByExample(example).size()>0?false:true;
     }
+
+    @Override
+    public List<Department> getAllDept() {
+        Example example=new Example(Department.class);
+        example.createCriteria().andEqualTo("isDelete","0");
+        return departmentMapper.selectByExample(example);
+    }
 }

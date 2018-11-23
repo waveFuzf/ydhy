@@ -12,6 +12,7 @@ import com.example.ydhy.util.TokenUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.auth.In;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -60,26 +61,29 @@ public class UserController {
 
     private static Logger LOG = Logger.getLogger(String.valueOf(BorderRoomController.class));
 
-
-    @GetMapping("getAll")
-    public List<User> getAll(){
-        Example e=new Example(User.class);
-        e.createCriteria().getAllCriteria();
-        List<User> user=userMapper.selectByExample(e);
-        return user;
+    @PostMapping("getAll")
+    public Result<List<User>> getUsers(@ApiParam(value = "第几页",example = "1")@RequestParam Integer pageNo,
+                                     @ApiParam(value = "用户token")@RequestParam String token){
+        String str=tokenUtil.checkToken(token);
+        JSONObject jsonObject=JSONObject.fromObject(str);
+        if (jsonObject.optString("isSuper").equals("0")){
+            return ResultGenerator.genFailResult("权限不足");
+        }
+        List<User> users=userService.getUsers(5,pageNo);
+        return ResultGenerator.genSuccessResult(users);
     }
-//    @PostMapping("select")
-//    public Result<List<BorderRoom>> select(@ApiParam(value = "会议室名字",required = true)@RequestParam String borderName,
-//                                           @ApiParam(value = "页面size",example = "1")@RequestParam Integer pageSize,
-//                                           @ApiParam(value = "第几页",example = "1")@RequestParam Integer pageNo,
-//                                           @ApiParam(value = "用户token",required = true)@RequestParam String token){
-//        String login_name=tokenUtil.checkToken(token);
-//        if (login_name.equals("token无效")) {
-//            return ResultGenerator.genFailResult("token无效");
-//        }
-//        List<BorderRoom> borderRooms=borderRoomService.getBorderRoomByName(borderName,pageNo,pageSize);
-//        return ResultGenerator.genSuccessResult(borderRooms);
-//    }
+
+    @PostMapping("getUserCount")
+    public Integer getUserCount(@ApiParam(value = "用户token")@RequestParam String token){
+        String str=tokenUtil.checkToken(token);
+        JSONObject jsonObject=JSONObject.fromObject(str);
+        if (jsonObject.optString("isSuper").equals("0")){
+            return 0;
+        }
+        List<User> users=userService.getUsers(null,null);
+        return users.size();
+    }
+
     @PostMapping("select")
     public Result<List<User>> select(@ApiParam("name")@RequestParam String name,
                                      @ApiParam(value = "页面size",example = "1")@RequestParam Integer pageSize,
@@ -91,13 +95,6 @@ public class UserController {
         }
         List<User> users=userService.getUsersByName(name,pageSize,pageNo);
         return ResultGenerator.genSuccessResult(users);
-    }
-
-    @GetMapping("/itemsPage")
-    public List<User> itemsPage(int page,int size){
-        Page<User> pageInfo = PageHelper.startPage(page, size);
-        List<User> users = userMapper.selectAll();
-        return pageInfo;
     }
 
     @PostMapping("/userInfo")
@@ -202,6 +199,16 @@ public class UserController {
         }
         return ResultGenerator.genSuccessResult("导入成功！");
 
+    }
+
+    @PostMapping("/getMyInfo")
+    public Result getMyInfo(@ApiParam(value = "用户token",required = true)@RequestParam String token){
+        String login_name=tokenUtil.checkToken(token);
+        if (login_name.equals("token无效")){
+            return ResultGenerator.genFailResult(login_name);
+        }
+        JSONObject jsonObject=JSONObject.fromObject(login_name);
+        return ResultGenerator.genSuccessResult(jsonObject);
     }
 
     private List getUsersFromFile(Workbook workbook) {
