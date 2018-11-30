@@ -3,28 +3,32 @@ package com.example.ydhy.entity;
 import com.example.ydhy.dto.DeptInfo;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
 @Data
 public class Department {
     @Id
     private Integer id;
-
+    @Column(name = "dept_name")
     private String deptName;
-
+    @Column(name = "introdecu")
     private String introdecu;
-
+    @Column(name = "phone")
     private String phone;
-
+    @Column(name = "director_id")
     private Integer directorId;
-
+    @Column(name = "status")
     private String status;
-
+    @Column(name = "create_time")
     private Date createTime;
-
+    @Column(name = "update_time")
     private Date updateTime;
-
+    @Column(name = "is_delete")
     private String isDelete;
+    @Transient
+    private String directorName;
 
     public Department(){
 

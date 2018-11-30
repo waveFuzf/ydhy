@@ -4,7 +4,6 @@ import com.example.ydhy.Re.Result;
 import com.example.ydhy.Re.ResultGenerator;
 import com.example.ydhy.dto.DeptInfo;
 import com.example.ydhy.entity.Department;
-import com.example.ydhy.entity.User;
 import com.example.ydhy.service.DeptService;
 import com.example.ydhy.service.UserService;
 import com.example.ydhy.util.TokenUtil;
@@ -77,8 +76,31 @@ public class DeptController {
         if (jsonObject.optString("isSuper").equals("0")){
             return ResultGenerator.genFailResult("权限不足");
         }
-        List<Department> departments=deptService.getAllDept();
+        List<Department> departments=deptService.getAllDept(null);
         return ResultGenerator.genSuccessResult(departments);
+    }
+
+    @PostMapping("getDept")
+    public Result<List<Department>> getDept(@ApiParam(value = "用户token")@RequestParam String token,
+                                            @ApiParam(value = "第几页",example = "1")@RequestParam Integer pageNo){
+        String str=tokenUtil.checkToken(token);
+        JSONObject jsonObject=JSONObject.fromObject(str);
+        if (jsonObject.optString("isSuper").equals("0")){
+            return ResultGenerator.genFailResult("权限不足");
+        }
+        List<Department> departments=deptService.getAllDept(pageNo);
+        return ResultGenerator.genSuccessResult(departments);
+    }
+
+    @PostMapping("getDeptCount")
+    public Integer getDeptCount(@ApiParam(value = "用户token")@RequestParam String token){
+        String str=tokenUtil.checkToken(token);
+        JSONObject jsonObject=JSONObject.fromObject(str);
+        if (jsonObject.optString("isSuper").equals("0")){
+            return 0;
+        }
+        List<Department> departments=deptService.getAllDept(null);
+        return departments.size();
     }
 
     @PostMapping("/addModel")
@@ -230,8 +252,8 @@ public class DeptController {
             department.setIntrodecu(String.valueOf(row.getCell(3)));
             department.setCreateTime(new Date());
             department.setIsDelete("0");
-            department.setStatus("0");
             deptService.addDepartment(department);
+            department.setStatus("0");
 
         }
         return errorLists;

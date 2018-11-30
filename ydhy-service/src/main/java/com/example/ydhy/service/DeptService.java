@@ -18,5 +18,5 @@ public interface DeptService {
 
     boolean getDeptByName(String s);
 
-    List<Department> getAllDept();
+    List<Department> getAllDept(Integer pageNo);
 }

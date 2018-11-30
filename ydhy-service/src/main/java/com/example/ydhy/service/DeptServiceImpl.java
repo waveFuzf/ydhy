@@ -3,6 +3,7 @@ package com.example.ydhy.service;
 import com.example.ydhy.dao.DepartmentMapper;
 import com.example.ydhy.dto.DeptInfo;
 import com.example.ydhy.entity.Department;
+import com.example.ydhy.entity.User;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class DeptServiceImpl implements DeptService {
@@ -20,7 +20,6 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public void updateDeptInfo(DeptInfo deptInfo) {
         Department dept=new Department(deptInfo);
-        dept.setUpdateTime(new Date());
         departmentMapper.updateByPrimaryKeySelective(dept);
     }
 
@@ -66,9 +65,16 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<Department> getAllDept() {
-        Example example=new Example(Department.class);
-        example.createCriteria().andEqualTo("isDelete","0");
-        return departmentMapper.selectByExample(example);
+    public List<Department> getAllDept(Integer pageNo) {
+        if (pageNo==null){
+            Example example=new Example(Department.class);
+            example.createCriteria().andEqualTo("isDelete","0");
+            return departmentMapper.selectByExample(example);
+        }
+        Page<Department> pageInfo = PageHelper.startPage(pageNo, 5);
+        List<Department> departments=departmentMapper.getDeptInfo();
+        return pageInfo;
     }
+
+
 }

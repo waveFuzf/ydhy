@@ -84,6 +84,18 @@ public class UserController {
         return users.size();
     }
 
+    @PostMapping("countUsersByName")
+    public Integer UsersCountByName(@ApiParam(value = "用户token")@RequestParam String token,
+                                    @ApiParam(value = "搜索关键字")@RequestParam String name){
+        String str=tokenUtil.checkToken(token);
+        JSONObject jsonObject=JSONObject.fromObject(str);
+        if (str.equals("token无效")){
+            return 0;
+        }
+        List<User> users=userService.getUsersByName(name);
+        return users.size();
+    }
+
     @PostMapping("select")
     public Result<List<User>> select(@ApiParam("name")@RequestParam String name,
                                      @ApiParam(value = "页面size",example = "1")@RequestParam Integer pageSize,
@@ -94,6 +106,16 @@ public class UserController {
             return ResultGenerator.genFailResult(login_name);
         }
         List<User> users=userService.getUsersByName(name,pageSize,pageNo);
+        return ResultGenerator.genSuccessResult(users);
+    }
+
+    @PostMapping("getDirectors")
+    public Result<List<User>> getDirectors(@ApiParam(value = "用户token")@RequestParam String token){
+        String login_name=tokenUtil.checkToken(token);
+        if (login_name.equals("token无效")){
+            return ResultGenerator.genFailResult(login_name);
+        }
+        List<User> users=userService.getDirectors();
         return ResultGenerator.genSuccessResult(users);
     }
 

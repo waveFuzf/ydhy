@@ -21,4 +21,8 @@ public interface UserService {
     List<User> getUsersByName(String name, Integer pageSize, Integer pageNo);
 
     List<User> getUsers(Integer pageSize, Integer pageNo);
+
+    List<User> getUsersByName(String name);
+
+    List<User> getDirectors();
 }

@@ -89,4 +89,20 @@ public class UserServiceImpl implements UserService {
         return pageInfo;
     }
 
+    @Override
+    public List<User> getUsersByName(String name) {
+        Example e=new Example(User.class);
+        e.createCriteria().andLike("realName","%"+name+"%")
+                .andEqualTo("isDelete","0");
+        List<User> user=userMapper.selectByExample(e);
+        return user;
+    }
+
+    @Override
+    public List<User> getDirectors() {
+        Example e=new Example(User.class);
+        e.createCriteria().andEqualTo("position","主管");
+        return userMapper.selectByExample(e);
+    }
+
 }
