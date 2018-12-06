@@ -53,8 +53,20 @@ public class IssueSqlProvider {
             VALUES("request_id", "#{requestId,jdbcType=INTEGER}");
         }
         
+        if (record.getType() != null) {
+            VALUES("type", "#{type,jdbcType=VARCHAR}");
+        }
+        
         if (record.getContent() != null) {
             VALUES("content", "#{content,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getResoveUserInfo() != null) {
+            VALUES("resove_user_info", "#{resoveUserInfo,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getResolve() != null) {
+            VALUES("resolve", "#{resolve,jdbcType=VARCHAR}");
         }
         
         if (record.getTag() != null) {
@@ -77,7 +89,10 @@ public class IssueSqlProvider {
         }
         SELECT("user_id");
         SELECT("request_id");
+        SELECT("type");
         SELECT("content");
+        SELECT("resove_user_info");
+        SELECT("resolve");
         SELECT("tag");
         SELECT("is_delete");
         FROM("issue");
@@ -109,8 +124,20 @@ public class IssueSqlProvider {
             SET("request_id = #{record.requestId,jdbcType=INTEGER}");
         }
         
+        if (record.getType() != null) {
+            SET("type = #{record.type,jdbcType=VARCHAR}");
+        }
+        
         if (record.getContent() != null) {
             SET("content = #{record.content,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getResoveUserInfo() != null) {
+            SET("resove_user_info = #{record.resoveUserInfo,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getResolve() != null) {
+            SET("resolve = #{record.resolve,jdbcType=VARCHAR}");
         }
         
         if (record.getTag() != null) {
@@ -132,7 +159,10 @@ public class IssueSqlProvider {
         SET("id = #{record.id,jdbcType=INTEGER}");
         SET("user_id = #{record.userId,jdbcType=INTEGER}");
         SET("request_id = #{record.requestId,jdbcType=INTEGER}");
+        SET("type = #{record.type,jdbcType=VARCHAR}");
         SET("content = #{record.content,jdbcType=VARCHAR}");
+        SET("resove_user_info = #{record.resoveUserInfo,jdbcType=VARCHAR}");
+        SET("resolve = #{record.resolve,jdbcType=VARCHAR}");
         SET("tag = #{record.tag,jdbcType=INTEGER}");
         SET("is_delete = #{record.isDelete,jdbcType=VARCHAR}");
         
@@ -153,8 +183,20 @@ public class IssueSqlProvider {
             SET("request_id = #{requestId,jdbcType=INTEGER}");
         }
         
+        if (record.getType() != null) {
+            SET("type = #{type,jdbcType=VARCHAR}");
+        }
+        
         if (record.getContent() != null) {
             SET("content = #{content,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getResoveUserInfo() != null) {
+            SET("resove_user_info = #{resoveUserInfo,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getResolve() != null) {
+            SET("resolve = #{resolve,jdbcType=VARCHAR}");
         }
         
         if (record.getTag() != null) {

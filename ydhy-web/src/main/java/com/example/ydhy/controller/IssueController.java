@@ -40,7 +40,7 @@ public class IssueController {
     }
     @PostMapping("deleteIssues")
     public Result deleteIssues(@ApiParam("用户token")@RequestParam String token,
-                             @ApiParam("议题信息")@RequestBody IssueInfo issueInfo) throws MessagingException {
+                             @ApiParam("议题信息")@RequestBody Issue issueInfo) throws MessagingException {
         String str=tokenUtil.checkToken(token);
         if (str.equals("token无效")){
             return ResultGenerator.genFailResult(str);
@@ -51,15 +51,13 @@ public class IssueController {
                 requestService.getModelById(issueInfo.getRequestId()).getUserId())){
             return ResultGenerator.genFailResult("需要本人操作。");
         }
-        Issue issue=new Issue(issueInfo);
-        issue.setUserId(userId);
-        issueService.save(issue);
+        issueService.delete(issueInfo);
         return ResultGenerator.genSuccessResult();
     }
 
     @PostMapping("updateIssues")
     public Result updateIssues(@ApiParam("用户token")@RequestParam String token,
-                             @ApiParam("议题信息")@RequestBody IssueInfo issueInfo) throws MessagingException {
+                             @ApiParam("议题信息")@RequestBody Issue issue) throws MessagingException {
         String str=tokenUtil.checkToken(token);
         if (str.equals("token无效")){
             return ResultGenerator.genFailResult(str);
@@ -67,10 +65,10 @@ public class IssueController {
         JSONObject jsonObject=JSONObject.fromObject(str);
         Integer userId=jsonObject.optInt("id");
         if (!Objects.equals(userId,
-                requestService.getModelById(issueInfo.getRequestId()).getUserId())){
+                requestService.getModelById(issue.getRequestId()).getUserId())){
             return ResultGenerator.genFailResult("需要本人操作。");
         }
-        issueService.updateIssue(issueInfo,userId);
+        issueService.updateIssue(issue,userId);
         return null;
     }
 

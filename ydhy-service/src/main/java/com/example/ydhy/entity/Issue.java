@@ -4,6 +4,9 @@ import com.example.ydhy.dto.IssueInfo;
 import lombok.Data;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.List;
+
 @Data
 public class Issue {
     @Id
@@ -13,7 +16,16 @@ public class Issue {
 
     private Integer requestId;
 
+    private String type;
+
     private String content;
+
+    private String resoveUserInfo;
+
+    @Transient
+    private List<User> userList;
+
+    private String resolve;
 
     private Integer tag;
 
@@ -21,7 +33,7 @@ public class Issue {
 
     public Issue(){
 
-    }
+}
 
     public Issue(IssueInfo issueInfo) {
         this.requestId=issueInfo.getRequestId();

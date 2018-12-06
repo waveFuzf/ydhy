@@ -284,6 +284,76 @@ public class IssueExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(String value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(String value) {
+            addCriterion("type <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(String value) {
+            addCriterion("type >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("type >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(String value) {
+            addCriterion("type <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(String value) {
+            addCriterion("type <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLike(String value) {
+            addCriterion("type like", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotLike(String value) {
+            addCriterion("type not like", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<String> values) {
+            addCriterion("type in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<String> values) {
+            addCriterion("type not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(String value1, String value2) {
+            addCriterion("type between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(String value1, String value2) {
+            addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
         public Criteria andContentIsNull() {
             addCriterion("content is null");
             return (Criteria) this;
@@ -351,6 +421,146 @@ public class IssueExample {
 
         public Criteria andContentNotBetween(String value1, String value2) {
             addCriterion("content not between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoIsNull() {
+            addCriterion("resove_user_info is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoIsNotNull() {
+            addCriterion("resove_user_info is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoEqualTo(String value) {
+            addCriterion("resove_user_info =", value, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoNotEqualTo(String value) {
+            addCriterion("resove_user_info <>", value, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoGreaterThan(String value) {
+            addCriterion("resove_user_info >", value, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoGreaterThanOrEqualTo(String value) {
+            addCriterion("resove_user_info >=", value, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoLessThan(String value) {
+            addCriterion("resove_user_info <", value, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoLessThanOrEqualTo(String value) {
+            addCriterion("resove_user_info <=", value, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoLike(String value) {
+            addCriterion("resove_user_info like", value, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoNotLike(String value) {
+            addCriterion("resove_user_info not like", value, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoIn(List<String> values) {
+            addCriterion("resove_user_info in", values, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoNotIn(List<String> values) {
+            addCriterion("resove_user_info not in", values, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoBetween(String value1, String value2) {
+            addCriterion("resove_user_info between", value1, value2, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResoveUserInfoNotBetween(String value1, String value2) {
+            addCriterion("resove_user_info not between", value1, value2, "resoveUserInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveIsNull() {
+            addCriterion("resolve is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveIsNotNull() {
+            addCriterion("resolve is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveEqualTo(String value) {
+            addCriterion("resolve =", value, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveNotEqualTo(String value) {
+            addCriterion("resolve <>", value, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveGreaterThan(String value) {
+            addCriterion("resolve >", value, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveGreaterThanOrEqualTo(String value) {
+            addCriterion("resolve >=", value, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveLessThan(String value) {
+            addCriterion("resolve <", value, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveLessThanOrEqualTo(String value) {
+            addCriterion("resolve <=", value, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveLike(String value) {
+            addCriterion("resolve like", value, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveNotLike(String value) {
+            addCriterion("resolve not like", value, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveIn(List<String> values) {
+            addCriterion("resolve in", values, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveNotIn(List<String> values) {
+            addCriterion("resolve not in", values, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveBetween(String value1, String value2) {
+            addCriterion("resolve between", value1, value2, "resolve");
+            return (Criteria) this;
+        }
+
+        public Criteria andResolveNotBetween(String value1, String value2) {
+            addCriterion("resolve not between", value1, value2, "resolve");
             return (Criteria) this;
         }
 
