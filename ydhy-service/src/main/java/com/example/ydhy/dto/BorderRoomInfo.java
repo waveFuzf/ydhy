@@ -14,4 +14,6 @@ public class BorderRoomInfo {
     private String introduce;
 
     private String status;
+
+    private String scale;
 }

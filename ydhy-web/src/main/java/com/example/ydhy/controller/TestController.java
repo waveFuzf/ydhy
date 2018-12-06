@@ -1,6 +1,5 @@
 package com.example.ydhy.controller;
 
-import com.example.ydhy.util.EmailUtil;
 import com.example.ydhy.util.ImageWrite;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -18,17 +17,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.example.ydhy.util.ImageWrite.toBufferedImage;
 
 @CrossOrigin
 @RestController
@@ -42,12 +36,12 @@ public class TestController {
 
     private static final Logger logger =LoggerFactory.getLogger(TestController.class);
     //多线程发送
-    @GetMapping("/sendEmail")
-    public String sendEmail(){
-        taskExecutor.execute(new EmailUtil(javaMailSender,"906638848@qq.com"));
-        taskExecutor.execute(new EmailUtil(javaMailSender,"zhibi513155315@163.com"));
-        return "发送成功!";
-    }
+//    @GetMapping("/sendEmail")
+//    public String sendEmail(){
+//        taskExecutor.execute(new EmailUtil(javaMailSender,"906638848@qq.com"));
+//        taskExecutor.execute(new EmailUtil(javaMailSender,"zhibi513155315@163.com"));
+//        return "发送成功!";
+//    }
     @GetMapping("/sendEmails")
     public String sendEmails() throws MessagingException {
         String users[]={"zhibi513155315@163.com","zhibi513155315@163.com",

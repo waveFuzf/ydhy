@@ -13,94 +13,64 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 import static org.apache.ibatis.jdbc.SqlBuilder.WHERE;
 
-import com.example.ydhy.entity.BorderRoom;
-import com.example.ydhy.entity.BorderRoomExample.Criteria;
-import com.example.ydhy.entity.BorderRoomExample.Criterion;
-import com.example.ydhy.entity.BorderRoomExample;
+import com.example.ydhy.entity.Schedule;
+import com.example.ydhy.entity.ScheduleExample.Criteria;
+import com.example.ydhy.entity.ScheduleExample.Criterion;
+import com.example.ydhy.entity.ScheduleExample;
 import java.util.List;
 import java.util.Map;
 
-public class BorderRoomSqlProvider {
+public class ScheduleSqlProvider {
 
-    public String countByExample(BorderRoomExample example) {
+    public String countByExample(ScheduleExample example) {
         BEGIN();
         SELECT("count(*)");
-        FROM("border_room");
+        FROM("schedule");
         applyWhere(example, false);
         return SQL();
     }
 
-    public String deleteByExample(BorderRoomExample example) {
+    public String deleteByExample(ScheduleExample example) {
         BEGIN();
-        DELETE_FROM("border_room");
+        DELETE_FROM("schedule");
         applyWhere(example, false);
         return SQL();
     }
 
-    public String insertSelective(BorderRoom record) {
+    public String insertSelective(Schedule record) {
         BEGIN();
-        INSERT_INTO("border_room");
+        INSERT_INTO("schedule");
         
         if (record.getId() != null) {
             VALUES("id", "#{id,jdbcType=INTEGER}");
         }
         
-        if (record.getRoomName() != null) {
-            VALUES("room_name", "#{roomName,jdbcType=VARCHAR}");
+        if (record.getUserId() != null) {
+            VALUES("user_id", "#{userId,jdbcType=INTEGER}");
         }
         
-        if (record.getPosition() != null) {
-            VALUES("position", "#{position,jdbcType=VARCHAR}");
+        if (record.getRequestId() != null) {
+            VALUES("request_id", "#{requestId,jdbcType=INTEGER}");
         }
         
-        if (record.getStatus() != null) {
-            VALUES("status", "#{status,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getIntroduce() != null) {
-            VALUES("introduce", "#{introduce,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getCreateTime() != null) {
-            VALUES("create_time", "#{createTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdateTime() != null) {
-            VALUES("update_time", "#{updateTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getIsDelete() != null) {
-            VALUES("is_delete", "#{isDelete,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDirectorId() != null) {
-            VALUES("director_id", "#{directorId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getScale() != null) {
-            VALUES("scale", "#{scale,jdbcType=VARCHAR}");
+        if (record.getIsParticipate() != null) {
+            VALUES("is_participate", "#{isParticipate,jdbcType=VARCHAR}");
         }
         
         return SQL();
     }
 
-    public String selectByExample(BorderRoomExample example) {
+    public String selectByExample(ScheduleExample example) {
         BEGIN();
         if (example != null && example.isDistinct()) {
             SELECT_DISTINCT("id");
         } else {
             SELECT("id");
         }
-        SELECT("room_name");
-        SELECT("position");
-        SELECT("status");
-        SELECT("introduce");
-        SELECT("create_time");
-        SELECT("update_time");
-        SELECT("is_delete");
-        SELECT("director_id");
-        SELECT("scale");
-        FROM("border_room");
+        SELECT("user_id");
+        SELECT("request_id");
+        SELECT("is_participate");
+        FROM("schedule");
         applyWhere(example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -111,50 +81,26 @@ public class BorderRoomSqlProvider {
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
-        BorderRoom record = (BorderRoom) parameter.get("record");
-        BorderRoomExample example = (BorderRoomExample) parameter.get("example");
+        Schedule record = (Schedule) parameter.get("record");
+        ScheduleExample example = (ScheduleExample) parameter.get("example");
         
         BEGIN();
-        UPDATE("border_room");
+        UPDATE("schedule");
         
         if (record.getId() != null) {
             SET("id = #{record.id,jdbcType=INTEGER}");
         }
         
-        if (record.getRoomName() != null) {
-            SET("room_name = #{record.roomName,jdbcType=VARCHAR}");
+        if (record.getUserId() != null) {
+            SET("user_id = #{record.userId,jdbcType=INTEGER}");
         }
         
-        if (record.getPosition() != null) {
-            SET("position = #{record.position,jdbcType=VARCHAR}");
+        if (record.getRequestId() != null) {
+            SET("request_id = #{record.requestId,jdbcType=INTEGER}");
         }
         
-        if (record.getStatus() != null) {
-            SET("status = #{record.status,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getIntroduce() != null) {
-            SET("introduce = #{record.introduce,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getCreateTime() != null) {
-            SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdateTime() != null) {
-            SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getIsDelete() != null) {
-            SET("is_delete = #{record.isDelete,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDirectorId() != null) {
-            SET("director_id = #{record.directorId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getScale() != null) {
-            SET("scale = #{record.scale,jdbcType=VARCHAR}");
+        if (record.getIsParticipate() != null) {
+            SET("is_participate = #{record.isParticipate,jdbcType=VARCHAR}");
         }
         
         applyWhere(example, true);
@@ -163,62 +109,32 @@ public class BorderRoomSqlProvider {
 
     public String updateByExample(Map<String, Object> parameter) {
         BEGIN();
-        UPDATE("border_room");
+        UPDATE("schedule");
         
         SET("id = #{record.id,jdbcType=INTEGER}");
-        SET("room_name = #{record.roomName,jdbcType=VARCHAR}");
-        SET("position = #{record.position,jdbcType=VARCHAR}");
-        SET("status = #{record.status,jdbcType=VARCHAR}");
-        SET("introduce = #{record.introduce,jdbcType=VARCHAR}");
-        SET("create_time = #{record.createTime,jdbcType=TIMESTAMP}");
-        SET("update_time = #{record.updateTime,jdbcType=TIMESTAMP}");
-        SET("is_delete = #{record.isDelete,jdbcType=VARCHAR}");
-        SET("director_id = #{record.directorId,jdbcType=INTEGER}");
-        SET("scale = #{record.scale,jdbcType=VARCHAR}");
+        SET("user_id = #{record.userId,jdbcType=INTEGER}");
+        SET("request_id = #{record.requestId,jdbcType=INTEGER}");
+        SET("is_participate = #{record.isParticipate,jdbcType=VARCHAR}");
         
-        BorderRoomExample example = (BorderRoomExample) parameter.get("example");
+        ScheduleExample example = (ScheduleExample) parameter.get("example");
         applyWhere(example, true);
         return SQL();
     }
 
-    public String updateByPrimaryKeySelective(BorderRoom record) {
+    public String updateByPrimaryKeySelective(Schedule record) {
         BEGIN();
-        UPDATE("border_room");
+        UPDATE("schedule");
         
-        if (record.getRoomName() != null) {
-            SET("room_name = #{roomName,jdbcType=VARCHAR}");
+        if (record.getUserId() != null) {
+            SET("user_id = #{userId,jdbcType=INTEGER}");
         }
         
-        if (record.getPosition() != null) {
-            SET("position = #{position,jdbcType=VARCHAR}");
+        if (record.getRequestId() != null) {
+            SET("request_id = #{requestId,jdbcType=INTEGER}");
         }
         
-        if (record.getStatus() != null) {
-            SET("status = #{status,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getIntroduce() != null) {
-            SET("introduce = #{introduce,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getCreateTime() != null) {
-            SET("create_time = #{createTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getUpdateTime() != null) {
-            SET("update_time = #{updateTime,jdbcType=TIMESTAMP}");
-        }
-        
-        if (record.getIsDelete() != null) {
-            SET("is_delete = #{isDelete,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDirectorId() != null) {
-            SET("director_id = #{directorId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getScale() != null) {
-            SET("scale = #{scale,jdbcType=VARCHAR}");
+        if (record.getIsParticipate() != null) {
+            SET("is_participate = #{isParticipate,jdbcType=VARCHAR}");
         }
         
         WHERE("id = #{id,jdbcType=INTEGER}");
@@ -226,7 +142,7 @@ public class BorderRoomSqlProvider {
         return SQL();
     }
 
-    protected void applyWhere(BorderRoomExample example, boolean includeExamplePhrase) {
+    protected void applyWhere(ScheduleExample example, boolean includeExamplePhrase) {
         if (example == null) {
             return;
         }

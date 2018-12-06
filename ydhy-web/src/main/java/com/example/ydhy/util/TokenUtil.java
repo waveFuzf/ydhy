@@ -1,8 +1,5 @@
 package com.example.ydhy.util;
 
-import com.example.ydhy.entity.Token;
-import com.example.ydhy.entity.User;
-import com.google.gson.JsonObject;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -10,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
 @Component
 public class TokenUtil {
     @Autowired

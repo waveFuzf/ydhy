@@ -564,6 +564,206 @@ public class BorderRoomExample {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
+
+        public Criteria andIsDeleteIsNull() {
+            addCriterion("is_delete is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteIsNotNull() {
+            addCriterion("is_delete is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteEqualTo(String value) {
+            addCriterion("is_delete =", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteNotEqualTo(String value) {
+            addCriterion("is_delete <>", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteGreaterThan(String value) {
+            addCriterion("is_delete >", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteGreaterThanOrEqualTo(String value) {
+            addCriterion("is_delete >=", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteLessThan(String value) {
+            addCriterion("is_delete <", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteLessThanOrEqualTo(String value) {
+            addCriterion("is_delete <=", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteLike(String value) {
+            addCriterion("is_delete like", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteNotLike(String value) {
+            addCriterion("is_delete not like", value, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteIn(List<String> values) {
+            addCriterion("is_delete in", values, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteNotIn(List<String> values) {
+            addCriterion("is_delete not in", values, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteBetween(String value1, String value2) {
+            addCriterion("is_delete between", value1, value2, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeleteNotBetween(String value1, String value2) {
+            addCriterion("is_delete not between", value1, value2, "isDelete");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdIsNull() {
+            addCriterion("director_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdIsNotNull() {
+            addCriterion("director_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdEqualTo(Integer value) {
+            addCriterion("director_id =", value, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdNotEqualTo(Integer value) {
+            addCriterion("director_id <>", value, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdGreaterThan(Integer value) {
+            addCriterion("director_id >", value, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("director_id >=", value, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdLessThan(Integer value) {
+            addCriterion("director_id <", value, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdLessThanOrEqualTo(Integer value) {
+            addCriterion("director_id <=", value, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdIn(List<Integer> values) {
+            addCriterion("director_id in", values, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdNotIn(List<Integer> values) {
+            addCriterion("director_id not in", values, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdBetween(Integer value1, Integer value2) {
+            addCriterion("director_id between", value1, value2, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirectorIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("director_id not between", value1, value2, "directorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleIsNull() {
+            addCriterion("scale is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleIsNotNull() {
+            addCriterion("scale is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleEqualTo(String value) {
+            addCriterion("scale =", value, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleNotEqualTo(String value) {
+            addCriterion("scale <>", value, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleGreaterThan(String value) {
+            addCriterion("scale >", value, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleGreaterThanOrEqualTo(String value) {
+            addCriterion("scale >=", value, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLessThan(String value) {
+            addCriterion("scale <", value, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLessThanOrEqualTo(String value) {
+            addCriterion("scale <=", value, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleLike(String value) {
+            addCriterion("scale like", value, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleNotLike(String value) {
+            addCriterion("scale not like", value, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleIn(List<String> values) {
+            addCriterion("scale in", values, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleNotIn(List<String> values) {
+            addCriterion("scale not in", values, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleBetween(String value1, String value2) {
+            addCriterion("scale between", value1, value2, "scale");
+            return (Criteria) this;
+        }
+
+        public Criteria andScaleNotBetween(String value1, String value2) {
+            addCriterion("scale not between", value1, value2, "scale");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
