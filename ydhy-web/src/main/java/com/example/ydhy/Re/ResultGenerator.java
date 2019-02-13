@@ -35,4 +35,11 @@ public class ResultGenerator {
                 .setCode(ResultCodeEnum.UNAUTHORIZED)
                 .setMessage("权限不足！");
     }
+
+    public static Result genSuccessResult(String redistoken, String isSuper) {
+        return new Result()
+                .setCode(ResultCodeEnum.SUCCESS)
+                .setMessage(isSuper)
+                .setData(redistoken);
+    }
 }

@@ -2,6 +2,8 @@ package com.example.ydhy.service;
 
 import com.example.ydhy.entity.Request;
 
+import java.util.List;
+
 public interface RequestService {
     String examineAndSave(Request request);
 
@@ -14,4 +16,6 @@ public interface RequestService {
     void changeState(Request request);
 
     Request getRequest(Request request);
+
+    List<Request> getRequestInfo(int id, int state);
 }

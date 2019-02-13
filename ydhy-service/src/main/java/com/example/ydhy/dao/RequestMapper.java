@@ -16,4 +16,10 @@ public interface RequestMapper extends tkMapper<Request> {
                     "(r.begin_time >= #{beginTime} and r.end_time <= #{endTime}) AND r.state='1'"
     })
     List<Integer> conflictRequest(@Param("beginTime") Date beginTime, @Param("endTime") Date endTime);
+
+    @Select({
+            "select * from request where id = #{id} and is_delete = 0 "
+    })
+    Request getRequestByRequestId(Integer id);
+
 }

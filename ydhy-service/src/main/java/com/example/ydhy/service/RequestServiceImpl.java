@@ -73,8 +73,17 @@ public class RequestServiceImpl implements RequestService {
         Example example=new Example(Request.class);
         example.createCriteria().andEqualTo("beginTime",request.getBeginTime())
                 .andEqualTo("endTime",request.getEndTime()).andEqualTo("roomId",request.getRoomId())
-                .andEqualTo("userId",request.getUserId());
+                .andEqualTo("userId",request.getUserId()).andEqualTo("isDelete",0);
         Request re=requestMapper.selectOneByExample(example);
+        return re;
+    }
+
+    @Override
+    public List<Request> getRequestInfo(int id, int state) {
+        Example example=new Example(Request.class);
+        example.createCriteria().andEqualTo("isDelete",0)
+                .andEqualTo("userId",id).andEqualTo("state",state);
+        List<Request> re=requestMapper.selectByExample(example);
         return re;
     }
 }

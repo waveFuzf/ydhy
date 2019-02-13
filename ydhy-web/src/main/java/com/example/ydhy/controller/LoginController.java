@@ -55,7 +55,7 @@ public class LoginController {
 
         JSONObject userSession = JSONObject.fromObject(user);
         String redistoken=tokenUtil.createToken(userSession);
-        return ResultGenerator.genSuccessResult(redistoken);
+        return ResultGenerator.genSuccessResult(redistoken,user.getIsSuper());
     }
     @PostMapping("logout")
     public String logOut(@ApiParam(value = "用户token", required = true) @RequestParam(value = "token") String token,

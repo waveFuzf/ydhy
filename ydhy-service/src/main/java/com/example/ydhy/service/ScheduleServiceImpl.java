@@ -58,4 +58,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         return users;
     }
+
+    @Override
+    public List<Schedule> getScheduleByInfo(int id, Integer status) {
+        return  scheduleMapper.getScheduleByInfo(id,status);
+    }
 }

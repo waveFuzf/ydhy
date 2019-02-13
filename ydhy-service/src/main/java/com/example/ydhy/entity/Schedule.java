@@ -3,6 +3,8 @@ package com.example.ydhy.entity;
 import lombok.Data;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
 @Data
 public class Schedule {
     @Id
@@ -16,4 +18,6 @@ public class Schedule {
 
     private String isDelete;
 
+    @Transient
+    private Request request;
 }
