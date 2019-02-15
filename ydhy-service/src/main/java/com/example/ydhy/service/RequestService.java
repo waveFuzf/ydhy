@@ -18,4 +18,6 @@ public interface RequestService {
     Request getRequest(Request request);
 
     List<Request> getRequestInfo(int id, int state);
+
+    List<Request> getUnDoneMeeting(int id, int i);
 }

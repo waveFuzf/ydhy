@@ -1,6 +1,7 @@
 package com.example.ydhy.entity;
 
 import com.example.ydhy.dto.BorderRoomInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.Id;
@@ -17,9 +18,9 @@ public class BorderRoom {
     private String status;
 
     private String introduce;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
 
     private String isDelete;

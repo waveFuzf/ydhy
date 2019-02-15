@@ -1,6 +1,7 @@
 package com.example.ydhy.entity;
 
 import com.example.ydhy.dto.DeptInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -22,8 +23,10 @@ public class Department {
     @Column(name = "status")
     private String status;
     @Column(name = "create_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
     @Column(name = "update_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
     @Column(name = "is_delete")
     private String isDelete;

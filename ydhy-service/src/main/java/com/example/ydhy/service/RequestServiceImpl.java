@@ -86,4 +86,9 @@ public class RequestServiceImpl implements RequestService {
         List<Request> re=requestMapper.selectByExample(example);
         return re;
     }
+
+    @Override
+    public List<Request> getUnDoneMeeting(int id, int i) {
+        return requestMapper.getUnDoneMeeting(id,i);
+    }
 }

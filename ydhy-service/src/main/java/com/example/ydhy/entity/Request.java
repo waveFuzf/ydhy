@@ -1,6 +1,7 @@
 package com.example.ydhy.entity;
 
 import com.example.ydhy.dto.IssueInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -15,11 +16,17 @@ public class Request {
     private Integer id;
     @Column(name="user_id")
     private Integer userId;
+    @Transient
+    private String userName;
     @Column(name="room_id")
     private Integer roomId;
+    @Transient
+    private String roomName;
     @Column(name="begin_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date beginTime;
     @Column(name="end_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date endTime;
     @Column(name="state")
     private String state;

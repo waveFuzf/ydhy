@@ -29,6 +29,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         JSONArray jsonArray= JSONArray.fromObject(request.getParticipantsInfo());
         Schedule schedule=new Schedule();
         schedule.setRequestId(request.getId());
+        schedule.setIsDelete("0");
         for(int i=0;i<jsonArray.size();i++){
             jsonObject=jsonArray.getJSONObject(i);
             schedule.setUserId(jsonObject.optInt("id"));
